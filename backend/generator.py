@@ -58,6 +58,10 @@ def generate_learning_path(skill, skill_level):
     ):
         output += chunk.text
 
+    output = output.strip()
+    if output.startswith("```") and output.endswith("```"):
+        output = "\n".join(output.splitlines()[1:-1])
+
     # Parse and return JSON
     try:
         data = json.loads(output)
@@ -118,7 +122,8 @@ def generate_cybersecurity_quiz(skill):
     ):
         print(chunk.text, end="")
 
-generate_cybersecurity_quiz("Cybersecurity")
+#generate_cybersecurity_quiz("Cybersecurity")
+generate_learning_path("Django", "Intermediate")
 
 
 
