@@ -71,10 +71,9 @@ def generate_learning_path(skill, skill_level):
         return output
 
 #result = generate_learning_path("Cybersecurity", "Beginner")
-#print(json.dumps(result, indent=2))
 
 
-def generate_cybersecurity_quiz(skill):
+def generate_quiz(skill):
     """Generates a basic-level Cybersecurity quiz with 10 questions in JSON format."""
 
     # Initialize Gemini client
@@ -84,24 +83,24 @@ def generate_cybersecurity_quiz(skill):
     model = "gemini-2.0-flash-lite"
 
     # User prompt content
-    prompt_text = """
-    Generate a structured JSON array containing 10 basic-level multiple-choice questions about Cybersecurity.
-    Each JSON object must follow this exact format:
-    {
-      "question": "Question text here",
-      "option1": "Option text here",
-      "option2": "Option text here",
-      "option3": "Option text here",
-      "option4": "Option text here",
-      "answer": "The correct option number (e.g., option2)"
-    }
-    Requirements:
-    - Exactly 10 objects in the array.
-    - Ensure questions are beginner-friendly.
-    - Options must be concise and plausible.
-    - "answer" should exactly match one of the option keys (e.g., "option1", "option2", etc.).
-    - Output only valid JSON without any additional commentary.
-    """
+    prompt_text = f"""
+        Generate a structured JSON array containing 10 basic-level multiple-choice questions about {skill}.
+        Each JSON object must follow this exact format:
+        {{
+          "question": "Question text here",
+          "option1": "Option text here",
+          "option2": "Option text here",
+          "option3": "Option text here",
+          "option4": "Option text here",
+          "answer": "The correct option number (e.g., option2)"
+        }}
+        Requirements:
+        - Exactly 10 objects in the array.
+        - Ensure questions are beginner-friendly.
+        - Options must be concise and plausible.
+        - "answer" should exactly match one of the option keys (e.g., "option1", "option2", etc.).
+        - Output only valid JSON without any additional commentary.
+        """
 
     # Build request content
     contents = [
@@ -115,15 +114,16 @@ def generate_cybersecurity_quiz(skill):
     config = types.GenerateContentConfig()
 
     # Stream and print generated content
+    full_text =""
     for chunk in client.models.generate_content_stream(
         model=model,
         contents=contents,
         config=config,
     ):
-        print(chunk.text, end="")
+        full_text += chunk.text
 
-#generate_cybersecurity_quiz("Cybersecurity")
-generate_learning_path("Django", "Intermediate")
+    return full_text
+
 
 
 
