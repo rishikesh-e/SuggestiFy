@@ -59,4 +59,3 @@ def register():
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Error: " + str(e)}), 500
-
