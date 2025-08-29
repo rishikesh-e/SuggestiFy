@@ -4,7 +4,7 @@ from google import genai
 from google.genai import types
 import json
 
-# Load environment variables from .env file
+# Loading environment variables from .env file
 load_dotenv()
 
 def generate_learning_path(skill, skill_level):
@@ -74,7 +74,7 @@ def generate_learning_path(skill, skill_level):
 
 
 def generate_quiz(skill):
-    """Generates a basic-level Cybersecurity quiz with 10 questions in JSON format."""
+    """Generates a basic-level quiz with 10 questions in JSON format."""
 
     # Initialize Gemini client
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
@@ -113,12 +113,60 @@ def generate_quiz(skill):
     # Generate content configuration
     config = types.GenerateContentConfig()
 
-    # Stream and print generated content
     full_text =""
     for chunk in client.models.generate_content_stream(
         model=model,
         contents=contents,
         config=config,
+    ):
+        full_text += chunk.text
+
+    return full_text
+
+
+def generate_step_quiz(step_name):
+    # Initialize Gemini client
+    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+
+    # Model to use
+    model = "gemini-2.0-flash-lite"
+
+    # User prompt content
+    prompt_text = f"""
+           Generate a structured JSON array containing 10 basic-level multiple-choice questions about {step_name} at advanced level.
+           Each JSON object must follow this exact format:
+           {{
+             "question": "Question text here",
+             "option1": "Option text here",
+             "option2": "Option text here",
+             "option3": "Option text here",
+             "option4": "Option text here",
+             "answer": "The correct option number (e.g., option2)"
+           }}
+           Requirements:
+           - Exactly 10 objects in the array.
+           - Ensure questions are beginner-friendly.
+           - Options must be concise and plausible.
+           - "answer" should exactly match one of the option keys (e.g., "option1", "option2", etc.).
+           - Output only valid JSON without any additional commentary.
+           """
+
+    # Build request content
+    contents = [
+        types.Content(
+            role="user",
+            parts=[types.Part.from_text(text=prompt_text.strip())],
+        )
+    ]
+
+    # Generate content configuration
+    config = types.GenerateContentConfig()
+
+    full_text = ""
+    for chunk in client.models.generate_content_stream(
+            model=model,
+            contents=contents,
+            config=config,
     ):
         full_text += chunk.text
 
