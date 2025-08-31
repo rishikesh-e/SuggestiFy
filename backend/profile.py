@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
-from backend.models import User, LearningPath, Step, QuizResult
+from backend.models import User, LearningPath,  QuizResult
 
 profile_bp = Blueprint("profile", __name__, url_prefix="/profile")
 
-@profile_bp.route("/", methods=["GET"])
+@profile_bp.route("/")
 @login_required
 def get_profile():
     user = current_user
@@ -18,7 +18,7 @@ def get_profile():
     for lp in learning_paths:
         steps = lp.steps
         total_steps = len(steps)
-        completed_steps = sum(1 for step in steps if step.is_completed)
+        completed_steps = sum(1 for step in steps if step.completed)
         progress = (completed_steps / total_steps) * 100 if total_steps > 0 else 0
 
         currently_learning.append(lp.skill.name)
@@ -34,8 +34,9 @@ def get_profile():
         "id": user.id,
         "name": user.name,
         "email": user.email,
-        "created_at": user.created_at,
+        "created_at": user.created_at.isoformat(),
         "currently_learning": currently_learning,
         "progress": progress_data,
         "quizzes_taken": quiz_count
     })
+

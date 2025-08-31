@@ -22,6 +22,8 @@ class User(db.Model, UserMixin):
     learning_path = db.relationship("LearningPath", back_populates="user", uselist=False)
     quiz_results = db.relationship("QuizResult", back_populates="user", lazy=True)
 
+    #recent_topics = db.Column(db.String(255), nullable=True)
+
 
 class Skill(db.Model):
     __tablename__ = "skills"
@@ -34,6 +36,8 @@ class Skill(db.Model):
     users = db.relationship("User", back_populates="skill")
     learning_paths = db.relationship("LearningPath", back_populates="skill", lazy=True)
     quiz_results = db.relationship("QuizResult", back_populates="skill", lazy=True)
+
+    quizzes = db.relationship("Quiz", back_populates="skill")
 
 
 class LearningPath(db.Model):
@@ -76,3 +80,34 @@ class QuizResult(db.Model):
     # Relationships
     user = db.relationship("User", back_populates="quiz_results")
     skill = db.relationship("Skill", back_populates="quiz_results")
+
+
+class Quiz(db.Model):
+    __tablename__ = "quizzes"
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.String(500), nullable=False)
+    option1 = db.Column(db.String(255))
+    option2 = db.Column(db.String(255))
+    option3 = db.Column(db.String(255))
+    option4 = db.Column(db.String(255))
+    answer = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, default=db.func.now())
+
+    # Foreign key only
+    skill_id = db.Column(db.Integer, db.ForeignKey("skills.id"), nullable=False)
+
+    # Relationship back to Skill
+    skill = db.relationship("Skill", back_populates="quizzes")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "question": self.question,
+            "option1": self.option1,
+            "option2": self.option2,
+            "option3": self.option3,
+            "option4": self.option4,
+            "answer": self.answer,
+            "skill": self.skill.name if self.skill else None,  # ✅ use relationship
+        }
+

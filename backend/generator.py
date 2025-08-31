@@ -84,7 +84,7 @@ def generate_quiz(skill):
 
     # User prompt content
     prompt_text = f"""
-        Generate a structured JSON array containing 10 basic-level multiple-choice questions about {skill}.
+        Generate a structured JSON array containing 10 multiple-choice questions about {skill}.
         Each JSON object must follow this exact format:
         {{
           "question": "Question text here",
@@ -96,7 +96,6 @@ def generate_quiz(skill):
         }}
         Requirements:
         - Exactly 10 objects in the array.
-        - Ensure questions are beginner-friendly.
         - Options must be concise and plausible.
         - "answer" should exactly match one of the option keys (e.g., "option1", "option2", etc.).
         - Output only valid JSON without any additional commentary.
@@ -172,6 +171,6 @@ def generate_step_quiz(step_name):
 
     return full_text
 
-
+#print(generate_learning_path("Python", "Advanced"))
 
 
