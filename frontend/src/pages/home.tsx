@@ -19,7 +19,6 @@ const Home = () => {
     >
       <Navbar />
 
-      {/* Hero Section */}
       <section className="py-20 flex flex-col items-center text-center px-4 md:px-0 bg-black bg-opacity-40 rounded-2xl mx-6 mt-6">
         <h1 className="text-4xl font-bold mb-6">Welcome, Rishikesh!</h1>
         <AnimatedDescription text={deepDescription} speed={300} />
@@ -40,11 +39,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Dashboard Section */}
       <section className="py-16 px-8 max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold mb-8 text-center">Your Dashboard</h2>
         <div className="grid md:grid-cols-3 gap-6">
-          {/* Recent Topics */}
           <div
             onClick={() => navigate("/recent-topics")}
             className="cursor-pointer bg-black bg-opacity-40 rounded-2xl shadow-lg p-6 hover:shadow-2xl hover:bg-opacity-60 transition"
@@ -53,7 +50,6 @@ const Home = () => {
             <p>Check out the latest skills you’ve explored.</p>
           </div>
 
-          {/* Progress Overview */}
           <div
             onClick={() => navigate("/recent-progress")}
             className="cursor-pointer bg-black bg-opacity-40 rounded-2xl shadow-lg p-6 hover:shadow-2xl hover:bg-opacity-60 transition"
@@ -62,7 +58,6 @@ const Home = () => {
             <p>Track your completed quizzes and learning steps.</p>
           </div>
 
-          {/* Tips & Highlights */}
           <div
             onClick={() => navigate("/recommend-topics")}
             className="cursor-pointer bg-black bg-opacity-40 rounded-2xl shadow-lg p-6 hover:shadow-2xl hover:bg-opacity-60 transition"
@@ -73,7 +68,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-black bg-opacity-40 py-6 mt-16 text-center rounded-2xl mx-6">
         <p className="text-gray-200">&copy; 2025 SuggestiFy. All rights reserved.</p>
       </footer>

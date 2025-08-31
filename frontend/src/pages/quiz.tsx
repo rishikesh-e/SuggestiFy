@@ -8,7 +8,7 @@ interface Question {
   option2: string;
   option3: string;
   option4: string;
-  answer: string; // e.g. "option2"
+  answer: string;
 }
 
 interface QuizProps {
@@ -44,7 +44,7 @@ const Quiz: React.FC<QuizProps> = ({ skill }) => {
   }, [skill]);
 
   const handleAnswer = (choice: string) => {
-    if (selected) return; // already answered
+    if (selected) return;
     setSelected(choice);
 
     const currentQ = questions[currentIndex];

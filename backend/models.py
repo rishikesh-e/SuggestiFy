@@ -108,6 +108,6 @@ class Quiz(db.Model):
             "option3": self.option3,
             "option4": self.option4,
             "answer": self.answer,
-            "skill": self.skill.name if self.skill else None,  # ✅ use relationship
+            "skill": self.skill.name if self.skill else None,
         }
 

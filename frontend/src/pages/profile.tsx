@@ -52,10 +52,8 @@ const Profile: React.FC = () => {
       backgroundImage: `url('/AVvXsEgySwlYtG5-fwpYIiM9b1WTLEp7bPLTjOrRjMCkSB0e8YHWAHyjXM6-XVVyEaAXU_Z__nDEDV6X2eiCZDi8yYLCL2C2yQ9x6pELBxmoou9Voba0a0hl1tyfLqasGz4Mzuc3Z0pFjq3l3EZ0WHr0R9aq1JYweQuVZew0veddgPSwcVlvGXRnx_YXOHQMdxqp.jpg')`,
     }}
   >
-    {/* 🔹 Navbar outside the styled container */}
     <Navbar />
 
-    {/* 🔹 Glassy overlay for profile section only */}
     <div>
       {/* Section heading */}
       <h1 className="text-3xl font-bold text-white text-center mt-10 mb-6">

@@ -15,19 +15,19 @@ def generate_quiz_route(skill_name):
     # Normalize skill name
     normalized_skill = skill_name.strip().lower().replace(" ", "")
 
-    # 1️⃣ Check if the skill exists in DB; if not, create it
+    # Check if the skill exists in DB; if not, create it
     skill_obj = Skill.query.filter_by(name=normalized_skill).first()
     if not skill_obj:
         skill_obj = Skill(name=normalized_skill, description=f"Auto-generated skill for {normalized_skill}")
         db.session.add(skill_obj)
         db.session.commit()
 
-    # 2️⃣ Check if quizzes for this skill already exist
+    # Check if quizzes for this skill already exist
     existing_quizzes = Quiz.query.filter_by(skill_id=skill_obj.id).all()
     if existing_quizzes:
         return jsonify([q.to_dict() for q in existing_quizzes])
 
-    # 3️⃣ Generate new quizzes using the original skill_name
+    # Generate new quizzes using the original skill_name
     raw_content = generate_quiz(normalized_skill)
     cleaned = re.sub(r"^```json\s*|\s*```$", "", raw_content.strip())
 
@@ -41,7 +41,7 @@ def generate_quiz_route(skill_name):
             "option1": "", "option2": "", "option3": "", "option4": "", "answer": ""
         }]
 
-    # 4️⃣ Save new quizzes
+    # Save new quizzes
     for item in content[:10]:
         quiz = Quiz(
             skill_id=skill_obj.id,
@@ -71,10 +71,10 @@ def submit_quiz():
     if score is None or not skill_name:
         return jsonify({"error": "score and skill are required"}), 400
 
-    # ✅ Normalize skill name
+    # Normalize skill name
     normalized_skill = skill_name.strip().lower().replace(" ", "")
 
-    # ✅ Fetch or create skill
+    # Fetch or create skill
     skill = Skill.query.filter_by(name=normalized_skill).first()
     if not skill:
         skill = Skill(
@@ -84,7 +84,7 @@ def submit_quiz():
         db.session.add(skill)
         db.session.commit()
 
-    # ✅ Determine pass/fail and level
+    # Determine pass/fail and level
     passed = score >= 6
     if score < 6:
         level = "Beginner"
@@ -93,7 +93,7 @@ def submit_quiz():
     else:
         level = "Advanced"
 
-    # ✅ Save quiz attempt history
+    #Save quiz attempt history
     quiz_result = QuizResult(
         user_id=current_user.id,
         skill_id=skill.id,
@@ -104,7 +104,7 @@ def submit_quiz():
     db.session.add(quiz_result)
     db.session.commit()
 
-    # ✅ Generate the learning path
+    #Generate the learning path
     path_data = generate_learning_path(skill.name, level)
     if isinstance(path_data, str):
         try:
@@ -112,16 +112,14 @@ def submit_quiz():
         except:
             path_data = {"topics": []}
 
-    # ✅ Always allow only one skill per user
     existing_path = LearningPath.query.filter_by(user_id=current_user.id).first()
 
     if existing_path:
-        # Remove old steps
         LearningStepProgress.query.filter_by(path_id=existing_path.id).delete()
         db.session.delete(existing_path)
         db.session.commit()
 
-    # ✅ Create new learning path
+    # Create new learning path
     learning_path = LearningPath(
         user_id=current_user.id,
         skill_id=skill.id,
@@ -131,7 +129,7 @@ def submit_quiz():
     db.session.add(learning_path)
     db.session.commit()
 
-    # ✅ Add steps
+    # Add steps
     for topic in path_data.get("topics", []):
         step = LearningStepProgress(
             path_id=learning_path.id,
@@ -156,8 +154,8 @@ def get_user_results():
     try:
         results = QuizResult.query.filter_by(user_id=current_user.id).all()
 
-        # Skip every other record
-        skipped_results = results[::2]  # takes index 0,2,4,...
+        # Skip every other record - avoiding duplicate
+        skipped_results = results[::2]
 
         results_data = []
         for r in skipped_results:

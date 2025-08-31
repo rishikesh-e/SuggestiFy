@@ -66,17 +66,15 @@ const QuizResults: React.FC = () => {
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40 z-0"></div>
 
-      {/* Navbar FULL WIDTH */}
       <Navbar />
 
-      {/* Centered Content Box */}
       <div className="relative z-10 mt-24 w-full max-w-6xl mx-auto px-6 flex flex-col items-center">
         {/* Greeting */}
         <div className="mb-6 text-center">
           <h2 className="text-2xl font-semibold text-white">
             Hello <span className="text-blue-400">{data.username}</span>, you
             have attended <span className="text-green-400">{data.total_results}</span>{" "}
-            quizzes, which is amazing 🎉 Keep working!
+            quizzes, which is amazing! Keep working!
           </h2>
         </div>
 
@@ -103,9 +101,9 @@ const QuizResults: React.FC = () => {
                   <td className="px-6 py-3">{result.score}</td>
                   <td className="px-6 py-3">
                     {result.passed ? (
-                      <span className="text-green-400 font-semibold">Yes ✅</span>
+                      <span className="text-green-400 font-semibold">Yes</span>
                     ) : (
-                      <span className="text-red-400 font-semibold">No ❌</span>
+                      <span className="text-red-400 font-semibold">No</span>
                     )}
                   </td>
                   <td className="px-6 py-3">{new Date(result.taken_at).toLocaleString()}</td>

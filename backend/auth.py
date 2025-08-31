@@ -1,7 +1,7 @@
 from sqlite3 import IntegrityError
 from flask import request, jsonify, Blueprint
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 
 from backend.models import User, db
 
@@ -59,3 +59,9 @@ def register():
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Error: " + str(e)}), 500
+
+@auth_bp.route("/logout", methods=['POST'])
+@login_required
+def logout():
+    logout_user()
+    return jsonify({"message": "Logout successful"}), 200

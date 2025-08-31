@@ -4,7 +4,6 @@ from google import genai
 from google.genai import types
 import json
 
-# Loading environment variables from .env file
 load_dotenv()
 
 def generate_learning_path(skill, skill_level):

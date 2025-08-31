@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface AnimatedDescriptionProps {
   text: string;
-  speed?: number;      // milliseconds per batch
-  batchSize?: number;  // number of characters added per batch
+  speed?: number;
+  batchSize?: number;
 }
 
 const AnimatedDescription: React.FC<AnimatedDescriptionProps> = ({
   text,
-  speed = 0.1,        // very small delay
-  batchSize = 10,   // more chars per batch
+  speed = 0.1,
+  batchSize = 10,
 }) => {
   const displayRef = useRef<HTMLParagraphElement>(null);
   const [done, setDone] = useState(false);
