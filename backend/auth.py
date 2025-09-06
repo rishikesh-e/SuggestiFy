@@ -60,8 +60,8 @@ def register():
         db.session.rollback()
         return jsonify({"message": "Error: " + str(e)}), 500
 
-@auth_bp.route("/logout", methods=['POST'])
+'''@auth_bp.route("/logout", methods=['POST'])
 @login_required
 def logout():
     logout_user()
-    return jsonify({"message": "Logout successful"}), 200
+    return jsonify({"message": "Logout successful"}), 200'''

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import LearningPathFlow from "./path"; // import the component we built
+import LearningPathFlow from "./path";
 
 interface Question {
   question: string;
