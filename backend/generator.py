@@ -18,7 +18,8 @@ def generate_learning_path(skill, skill_level):
 
     # Initialize Gemini client
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-    model = "gemini-2.0-flash-lite"
+    model = "gemini-2.5-pro"
+
 
     # Prompt for a specific skill level
     prompt_text = f"""
@@ -79,7 +80,8 @@ def generate_quiz(skill):
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
     # Model to use
-    model = "gemini-2.0-flash-lite"
+    model = "gemini-2.5-pro"
+
 
     # User prompt content
     prompt_text = f"""
@@ -127,7 +129,8 @@ def generate_step_quiz(step_name):
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
     # Model to use
-    model = "gemini-2.0-flash-lite"
+    model = "gemini-2.5-pro"
+
 
     # User prompt content
     prompt_text = f"""

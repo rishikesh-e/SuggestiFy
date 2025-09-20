@@ -6,6 +6,9 @@ import Home from "./pages/home";
 import Profile from "./pages/profile";
 import QuizLauncher from "./pages/quizlauncher";
 import QuizResults from "./pages/results";
+import RecommendTopics from "./pages/RecommendTopics";
+import RecentTopics from "./pages/RecentTopics";
+import Chat from "./pages/chat";
 
 const App: React.FC = () => {
   return (
@@ -21,8 +24,12 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
           <Route path="/profile" element ={<Profile />} />
+        <Route path="/recommend-topics" element ={<RecommendTopics />} />
+
+        <Route path="/recent-topics" element ={<RecentTopics />} />
           <Route path="/learn" element={<QuizLauncher />} />
         <Route path="/recent-progress" element = {<QuizResults />} />
+        <Route path="/chat-bot" element={<Chat />} />
       </Routes>
     </Router>
   );

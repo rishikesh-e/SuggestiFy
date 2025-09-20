@@ -31,6 +31,12 @@ const Home = () => {
             Learn a Skill
           </a>
           <a
+            href="/chat-bot"
+            className="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          >
+            Having doubts? Have a chat
+          </a>
+          <a
             href="/test"
             className="px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 transition"
           >
@@ -68,8 +74,10 @@ const Home = () => {
         </div>
       </section>
 
-      <footer className="bg-black bg-opacity-40 py-6 mt-16 text-center rounded-2xl mx-6">
-        <p className="text-gray-200">&copy; 2025 SuggestiFy. All rights reserved.</p>
+      <footer className="mt-16 mb-6 px-6">
+        <div className="bg-black bg-opacity-60 text-gray-300 rounded-2xl shadow-lg py-6 text-center">
+          <p>&copy; 2025 SuggestiFy. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );

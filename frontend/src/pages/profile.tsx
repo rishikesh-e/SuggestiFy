@@ -66,10 +66,14 @@ const Profile: React.FC = () => {
           {/* User Info */}
           <div className="bg-black bg-opacity-40 text-white rounded-2xl shadow-lg p-6">
             <h2 className="text-2xl font-semibold mb-2">{profile.name}</h2>
-            <p className="text-sm opacity-80">{profile.email}</p>
-            <p className="text-sm opacity-70 mt-1">
-              Joined: {new Date(profile.created_at).toDateString()}
-            </p>
+
+
+          </div>
+          <div className="bg-black bg-opacity-40 text-white rounded-2xl shadow-lg p-6">
+            <h2 className="text-2xl font-semibold mb-2" >{profile.email}</h2>
+          </div>
+          <div className="bg-black bg-opacity-40 text-white rounded-2xl shadow-lg p-6">
+            <h2 className="text-2xl font-semibold mb-2">Joined: {new Date(profile.created_at).toDateString()}</h2>
           </div>
 
           {/* Currently Learning */}
@@ -78,37 +82,13 @@ const Profile: React.FC = () => {
             {profile.currently_learning.length > 0 ? (
               <ul className="list-disc list-inside space-y-1 text-gray-200">
                 {profile.currently_learning.map((skill, i) => (
-                  <li key={i}>{skill}</li>
+                  <li key={i}>{skill.toUpperCase()}</li>
                 ))}
               </ul>
             ) : (
               <p className="opacity-70">Not enrolled in any skills yet.</p>
             )}
           </div>
-
-          {/* Progress Overview */}
-          <div className="bg-black bg-opacity-40 text-white rounded-2xl shadow-lg p-6">
-            <h3 className="text-xl font-semibold mb-3">Progress Overview</h3>
-            {profile.progress.length > 0 ? (
-              <div className="space-y-3">
-                {profile.progress.map((p, i) => (
-                  <div key={i}>
-                    <p className="mb-1">{p.skill}</p>
-                    <div className="w-full bg-white/30 rounded-full h-3">
-                      <div
-                        className="bg-green-400 h-3 rounded-full"
-                        style={{ width: `${p.progress}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-xs mt-1">{p.progress}% completed</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="opacity-70">No progress yet.</p>
-            )}
-          </div>
-
           {/* Quizzes Taken */}
           <div className="bg-black bg-opacity-40 text-white rounded-2xl shadow-lg p-6">
             <h3 className="text-xl font-semibold mb-2">Quizzes Taken</h3>
@@ -117,6 +97,11 @@ const Profile: React.FC = () => {
         </div>
       </div>
     </div>
+    <footer className="mt-16 mb-6 px-6">
+        <div className="bg-black bg-opacity-60 text-gray-300 rounded-2xl shadow-lg py-6 text-center">
+          <p>&copy; 2025 SuggestiFy. All rights reserved.</p>
+        </div>
+      </footer>
   </div>
 );
 

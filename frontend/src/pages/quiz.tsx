@@ -70,6 +70,7 @@ const Quiz: React.FC<QuizProps> = ({ skill }) => {
 
   if (questions.length === 0) {
     return (
+
       <div className="p-6 max-w-lg mx-auto text-center text-white">
         <p>
           Loading quiz for <b>{skill}</b>...

@@ -3,11 +3,12 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 from backend.auth import auth_bp
-from backend.models import db, Skill, Quiz
+from backend.models import db
 from flask_login import LoginManager, login_required, current_user
 from backend.models import User
 from backend.profile import profile_bp
 from backend.quiz import quiz_bp
+from backend.service import service_bp
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
@@ -56,6 +57,7 @@ def health():
 app.register_blueprint(auth_bp)
 app.register_blueprint(quiz_bp)
 app.register_blueprint(profile_bp)
+app.register_blueprint(service_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -20,8 +20,8 @@ const Navbar = () => {
         <div className="text-xl font-bold">SuggestiFy</div>
         <div className="flex space-x-4 items-center">
           <a href="/learn" className="px-3 py-1 rounded hover:bg-gray-200">Learn</a>
-          <a href="/test" className="px-3 py-1 rounded hover:bg-gray-200">Take a Test</a>
-          <a href="/progress" className="px-3 py-1 rounded hover:bg-gray-200">Progress</a>
+          <a href="/chat-bot" className="px-3 py-1 rounded hover:bg-gray-200">Chat Bot</a>
+          <a href="/recent-progress" className="px-3 py-1 rounded hover:bg-gray-200">Progress</a>
           <a href="/profile" className="px-3 py-1 rounded hover:bg-gray-200">Profile</a>
           <button
             onClick={handleLogout}

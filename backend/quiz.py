@@ -2,7 +2,7 @@ from urllib import request
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from backend.models import db, QuizResult, LearningPath, Skill, Quiz, LearningStepProgress
-from generator import *
+from backend.generator import *
 
 quiz_bp = Blueprint('services', __name__, url_prefix='/api')
 
@@ -62,7 +62,7 @@ def generate_quiz_route(skill_name):
 @login_required
 def submit_quiz():
     import json
-    from generator import generate_learning_path
+    from backend.generator import generate_learning_path
 
     data = request.get_json()
     score = data.get("score")
