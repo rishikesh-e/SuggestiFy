@@ -55,7 +55,7 @@ const Login: React.FC = () => {
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage: "url('/AVvXsEgySwlYtG5-fwpYIiM9b1WTLEp7bPLTjOrRjMCkSB0e8YHWAHyjXM6-XVVyEaAXU_Z__nDEDV6X2eiCZDi8yYLCL2C2yQ9x6pELBxmoou9Voba0a0hl1tyfLqasGz4Mzuc3Z0pFjq3l3EZ0WHr0R9aq1JYweQuVZew0veddgPSwcVlvGXRnx_YXOHQMdxqp.jpg')", // Your sharper background image
+        backgroundImage: "url('/image.jpg')", // Your sharper background image
       }}
     >
       {/* Content wrapper */}

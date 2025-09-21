@@ -61,7 +61,7 @@ const QuizResults: React.FC = () => {
   return (
     <div
       className="min-h-screen relative bg-cover bg-center"
-      style={{ backgroundImage: "url('/your-background-image.jpg')" }}
+      style={{ backgroundImage: "url('/image.jpg')" }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40 z-0"></div>

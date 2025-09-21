@@ -89,7 +89,10 @@ const Quiz: React.FC<QuizProps> = ({ skill }) => {
   const correctAnswer = currentQ[currentQ.answer as keyof Question];
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-gray-800 text-white rounded-xl shadow-lg">
+    <div className="p-6 max-w-lg mx-auto bg-gray-800 text-white rounded-xl shadow-lg"
+    style={{
+        backgroundImage: "url('/image.jpg')", // Your sharper background image
+      }}>
       <h3 className="text-xl font-semibold mb-4">
         Q{currentIndex + 1}. {currentQ.question}
       </h3>

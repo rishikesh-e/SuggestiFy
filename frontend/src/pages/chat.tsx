@@ -57,68 +57,70 @@ const ChatBot: React.FC = () => {
   }, [messages]);
 
   return (
-      <>
-          <Navbar />
-
-          <div
-      className="min-h-screen w-full bg-cover bg-center flex flex-col items-center justify-start p-6"
-      style={{ backgroundImage: "url('/your-background.jpg')" }}
+    <div
+      className="min-h-screen w-full bg-cover bg-center flex flex-col"
+      style={{
+        backgroundImage: "url('/image.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
-      {/* WIDER container: use almost full width and flexible height */}
-      <div className="w-full max-w-5xl h-[90vh] bg-black bg-opacity-40 backdrop-blur-md rounded-2xl shadow-lg p-6 flex flex-col">
-        <h2 className="text-3xl font-bold text-white mb-4 text-center">
-          SuggestiFy ChatBot
-        </h2>
+      <Navbar />
 
-        {/* Chat window: fills most of the container */}
-        <div className="flex-1 overflow-y-auto mb-4 space-y-3 w-full">
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <span
-                className={`inline-block px-4 py-2 rounded-2xl max-w-3xl break-words ${
-                  msg.sender === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-white/20 text-white backdrop-blur-md"
+      {/* Chat section */}
+      <div className="flex flex-col items-center justify-start p-6 flex-1">
+        <div className="w-full max-w-5xl h-[90vh] bg-black bg-opacity-40 backdrop-blur-md rounded-2xl shadow-lg p-6 flex flex-col">
+          <h2 className="text-3xl font-bold text-white mb-4 text-center">
+            SuggestiFy ChatBot
+          </h2>
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto mb-4 space-y-3 w-full">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`flex ${
+                  msg.sender === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {msg.text}
-              </span>
-            </div>
-          ))}
-          <div ref={chatEndRef} />
-        </div>
-
-        {/* Input box */}
-        <div className="flex mt-auto">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Type a message..."
-            className="flex-1 px-4 py-2 rounded-l-2xl text-black focus:outline-none"
-          />
-          <button
-            onClick={handleSend}
-            className="px-6 bg-blue-600 rounded-r-2xl text-white"
-          >
-            Send
-          </button>
+                <span
+                  className={`inline-block px-4 py-2 rounded-2xl max-w-3xl break-words ${
+                    msg.sender === "user"
+                      ? "bg-blue-600 text-white"
+                      : "bg-white/20 text-white backdrop-blur-md"
+                  }`}
+                >
+                  {msg.text}
+                </span>
+              </div>
+            ))}
+            <div ref={chatEndRef} />
+          </div>
+          <div className="flex mt-auto">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              placeholder="Type a message..."
+              className="flex-1 px-4 py-2 rounded-l-2xl text-black focus:outline-none"
+            />
+            <button
+              onClick={handleSend}
+              className="px-6 bg-blue-600 rounded-r-2xl text-white"
+            >
+              Send
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-          <footer className="mt-16 mb-6 px-6">
+
+      <footer className="mt-8 mb-6 px-6">
         <div className="bg-black bg-opacity-60 text-gray-300 rounded-2xl shadow-lg py-6 text-center text-lg">
           <p>&copy; 2025 SuggestiFy. All rights reserved.</p>
         </div>
       </footer>
-      </>
-
+    </div>
   );
 };
 

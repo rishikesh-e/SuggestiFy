@@ -1,11 +1,9 @@
-from urllib import request
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from backend.models import db, QuizResult, LearningPath, Skill, Quiz, LearningStepProgress
 from backend.generator import *
 
 quiz_bp = Blueprint('services', __name__, url_prefix='/api')
-
 
 @quiz_bp.route('/generate-quiz/<skill_name>', methods=['GET'])
 @login_required
@@ -71,20 +69,25 @@ def submit_quiz():
     if score is None or not skill_name:
         return jsonify({"error": "score and skill are required"}), 400
 
-    # Normalize skill name
     normalized_skill = skill_name.strip().lower().replace(" ", "")
-
-    # Fetch or create skill
     skill = Skill.query.filter_by(name=normalized_skill).first()
     if not skill:
-        skill = Skill(
-            name=normalized_skill,
-            description=f"Auto-created skill: {skill_name}"
-        )
+        skill = Skill(name=normalized_skill, description=f"Auto-created skill: {skill_name}")
         db.session.add(skill)
         db.session.commit()
 
-    # Determine pass/fail and level
+    # Check existing learning path
+    '''existing_path = LearningPath.query.filter_by(user_id=current_user.id, skill_id=skill.id).first()
+    if existing_path:
+        return jsonify({
+            "message": "You already have a learning path for this skill",
+            "skill": skill.name,
+            "level": existing_path.level,
+            "learning_path": json.loads(existing_path.path_data),
+            "steps": [step.to_dict() for step in existing_path.steps]
+        }), 200'''
+
+    # Normal quiz result creation
     passed = score >= 6
     if score < 6:
         level = "Beginner"
@@ -93,7 +96,6 @@ def submit_quiz():
     else:
         level = "Advanced"
 
-    #Save quiz attempt history
     quiz_result = QuizResult(
         user_id=current_user.id,
         skill_id=skill.id,
@@ -104,7 +106,7 @@ def submit_quiz():
     db.session.add(quiz_result)
     db.session.commit()
 
-    #Generate the learning path
+    # Generate new learning path
     path_data = generate_learning_path(skill.name, level)
     if isinstance(path_data, str):
         try:
@@ -112,14 +114,6 @@ def submit_quiz():
         except:
             path_data = {"topics": []}
 
-    existing_path = LearningPath.query.filter_by(user_id=current_user.id).first()
-
-    if existing_path:
-        LearningStepProgress.query.filter_by(path_id=existing_path.id).delete()
-        db.session.delete(existing_path)
-        db.session.commit()
-
-    # Create new learning path
     learning_path = LearningPath(
         user_id=current_user.id,
         skill_id=skill.id,
@@ -129,23 +123,18 @@ def submit_quiz():
     db.session.add(learning_path)
     db.session.commit()
 
-    # Add steps
     for topic in path_data.get("topics", []):
-        step = LearningStepProgress(
-            path_id=learning_path.id,
-            step_name=topic.get("name")
-        )
+        step = LearningStepProgress(path_id=learning_path.id, step_name=topic.get("name"))
         db.session.add(step)
     db.session.commit()
 
     return jsonify({
-        "message": "Quiz submitted and new learning path generated successfully",
-        "score": score,
-        "passed": passed,
-        "level": level,
+        "message": "Quiz submitted and new learning path generated",
         "skill": skill.name,
+        "level": level,
         "learning_path": path_data
     })
+
 
 
 @quiz_bp.route("/results-of-quiz", methods=["GET"])
@@ -180,3 +169,55 @@ def get_user_results():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@quiz_bp.route("/complete-step/<int:step_id>", methods=["POST"])
+@login_required
+def complete_step(step_id):
+    step = LearningStepProgress.query.get(step_id)
+    if not step:
+        return jsonify({"error": "Step not found"}), 404
+
+    step.completed = True
+    db.session.commit()
+
+    return jsonify({"message": f"Step '{step.step_name}' marked as completed"})
+
+@quiz_bp.route("/complete-skill/<int:skill_id>", methods=["POST"])
+@login_required
+def complete_skill(skill_id):
+    path = LearningPath.query.filter_by(user_id=current_user.id, skill_id=skill_id).first()
+    if not path:
+        return jsonify({"error": "No active learning path found"}), 404
+
+    steps = LearningStepProgress.query.filter_by(path_id=path.id).all()
+    if not all(step.completed for step in steps):
+        return jsonify({"error": "Not all steps are completed yet"}), 400
+
+    # Delete learning path + steps
+    for step in steps:
+        db.session.delete(step)
+    db.session.delete(path)
+    db.session.commit()
+
+    return jsonify({
+        "message": f" Congratulations {current_user.name}! You have completed the skill.",
+        "next": "Would you like to learn a new skill?"
+    })
+
+
+@quiz_bp.route("/get-skill", methods=["GET"])
+@login_required
+def get_skill():
+    path = LearningPath.query.filter_by(user_id=current_user.id).first()
+    if not path:
+        return jsonify({'message': "No active learning path found"}), 404
+
+    skill = Skill.query.get(path.skill_id)
+    print(skill)
+    return jsonify({
+        "message": "You already have a learning path for this skill",
+        "skill": skill.name if skill else None,
+        "level": path.level,
+        "learning_path": json.loads(path.path_data),
+        "steps": [step.to_dict() for step in path.steps]
+    }), 200

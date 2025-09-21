@@ -55,6 +55,16 @@ class LearningPath(db.Model):
     skill = db.relationship("Skill", back_populates="learning_paths")
     steps = db.relationship("LearningStepProgress", backref="learning_path", lazy=True)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "skill_id": self.skill_id,
+            "level": self.level,
+            "path_data": self.path_data,
+            "steps": [step.to_dict() for step in self.steps],
+            "generated_at": self.generated_at.isoformat()
+        }
 
 class LearningStepProgress(db.Model):
     __tablename__ = "learning_step_progress"
@@ -64,6 +74,14 @@ class LearningStepProgress(db.Model):
     step_name = db.Column(db.String(200), nullable=False)
     completed = db.Column(db.Boolean, default=False)
     completed_at = db.Column(db.DateTime, nullable=True)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "step_name": self.step_name,
+            "completed": self.completed,
+            "completed_at": self.completed_at.isoformat() if self.completed_at else None
+        }
 
 
 class QuizResult(db.Model):

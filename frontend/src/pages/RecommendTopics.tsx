@@ -3,7 +3,9 @@ import Navbar from "../components/navbar";
 
 const RecommendTopics: React.FC = () => {
   return (
-    <>
+    <div style={{
+        backgroundImage: "url('/image.jpg')",
+      }}>
       <Navbar />
       <div className="max-w-6xl mx-auto p-6 mt-6">
         <div className="bg-black bg-opacity-40 text-white rounded-2xl shadow-lg p-10 backdrop-blur-md">
@@ -99,7 +101,7 @@ const RecommendTopics: React.FC = () => {
           <p>&copy; 2025 SuggestiFy. All rights reserved.</p>
         </div>
       </footer>
-    </>
+    </div>
   );
 };
 
