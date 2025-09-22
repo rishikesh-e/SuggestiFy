@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import AnimatedDescription from "../components/animation";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+
+  // 👇 State to hold the username
+  const [username, setUsername] = useState<string>("Learner");
+
+  // 👇 Load from localStorage when component mounts
+  useEffect(() => {
+    const storedName = localStorage.getItem("name");
+    if (storedName) {
+      setUsername(storedName);
+    }
+  }, []);
 
   const deepDescription =
     "SuggestiFy is your personal learning companion. Explore new skills, take quizzes to test your knowledge, and follow step-by-step guides to master any topic. Track your progress, earn achievements, and learn at your own pace — all from a single interactive platform.";
@@ -19,7 +30,8 @@ const Home = () => {
       <Navbar />
 
       <section className="py-20 flex flex-col items-center text-center px-4 md:px-0 bg-black bg-opacity-40 rounded-2xl mx-6 mt-6">
-        <h1 className="text-4xl font-bold mb-6">Welcome, Rishikesh!</h1>
+        {/* 👇 Username comes from state now */}
+        <h1 className="text-4xl font-bold mb-6">Welcome, {username}!</h1>
         <AnimatedDescription text={deepDescription} speed={300} />
 
         <div className="flex space-x-4 mt-8">

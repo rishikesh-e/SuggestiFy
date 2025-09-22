@@ -17,14 +17,14 @@ def login():
         return jsonify({"message": "Email password are required"}), 401
 
     user = User.query.filter_by(email=email).first()
-
+    username = user.name
     if not user:
         return jsonify({"message": "User not found"}), 401
     if not check_password_hash(user.password, password):
         return jsonify({"message": "Password is incorrect"}), 401
 
     login_user(user, remember=True)
-    return jsonify({"message": "Login successful"}), 200
+    return jsonify({"message": "Login successful", "username": username}), 200
 
 @auth_bp.route('/logout', methods=['POST'])
 def logout():

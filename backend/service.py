@@ -11,7 +11,7 @@ API_KEY = os.environ.get("GEMINI_API_KEY")
 if not API_KEY:
     raise RuntimeError("GEMINI_API_KEY not set in environment")
 client = genai.Client(api_key=API_KEY)
-MODEL = "gemini-2.5-pro"
+MODEL = "gemini-2.0-flash"
 
 
 @service_bp.route("/chat-gemini-stream", methods=["GET"])

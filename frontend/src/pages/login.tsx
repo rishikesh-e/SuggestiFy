@@ -9,6 +9,7 @@ interface LoginFormData {
 
 interface ApiResponse {
   message: string;
+  username: string;
 }
 
 const Login: React.FC = () => {
@@ -37,6 +38,7 @@ const Login: React.FC = () => {
         formData,
         { withCredentials: true }
       );
+      localStorage.setItem("name", response.data.username)
       setSuccess(response.data.message);
       navigate('/home');
 
